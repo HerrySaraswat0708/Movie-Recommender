@@ -7,11 +7,9 @@ def fetch_poster(movie_id):
     response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key=3136368ff79fd8b05a0b46aa15630807&language=en-US'.format(movie_id))
     data = response.json()
     return "https://image.tmdb.org/t/p/w500/" + data['poster_path']
-
-with open('movies.joblib','rb') as f:
-    movies=joblib.load(f)
-with open('similarity.joblib','rb') as f:
-    similarity=joblib.load(f)
+   
+movies=pd.read_pickle('movies.pkl')
+similarity=np.fromfile('similarity',dtype='int')
 st.title('Movie Recommendation system')
 movie = st.selectbox('Select a movie name',movies['title'])
 
