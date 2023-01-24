@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-import pickle
+import joblib
 import requests
 
 def fetch_poster(movie_id):
@@ -8,11 +8,12 @@ def fetch_poster(movie_id):
     data = response.json()
     return "https://image.tmdb.org/t/p/w500/" + data['poster_path']
 
-movies = pickle.load(open('movies_data.pkl','rb'))
-similarity = pickle.load(open('similarity.pkl','rb'))
-movies = pd.DataFrame(movies)
+with open('movies.joblib','rb') as f:
+    movies=joblib.load(f)
+with open('similarity.joblib','rb') as f:
+    similarity=joblib.load(f)
 st.title('Movie Recommendation system')
-movie = st.selectbox('Select a movie name',movies['title'].values)
+movie = st.selectbox('Select a movie name',movies['title'])
 
 
 def recommend(movie):
